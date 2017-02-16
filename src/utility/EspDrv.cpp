@@ -46,7 +46,7 @@ typedef enum
 
 Stream *EspDrv::espSerial;
 
-RingBuffer EspDrv::ringBuf(32);
+WifiEspRingBuffer EspDrv::ringBuf(32);
 
 // Array of data to cache the information related to the networks discovered
 char 	EspDrv::_networkSsid[][WL_SSID_MAX_LENGTH] = {{"1"},{"2"},{"3"},{"4"},{"5"}};
@@ -945,10 +945,8 @@ bool EspDrv::sendCmdGet(const __FlashStringHelper* cmd, const char* startTag, co
 			// end tag found
 			// copy result to output buffer avoiding overflow
 			ringBuf.getStrN(outStr, strlen(endTag), outStrLen-1);
-
 			// read the remaining part of the response
 			readUntil(2000);
-
 			ret = true;
 		}
 		else
@@ -1018,7 +1016,7 @@ int EspDrv::sendCmd(const __FlashStringHelper* cmd, int timeout, ...)
 
 	va_list args;
 	va_start (args, timeout);
-	vsnprintf_P (cmdBuf, CMD_BUFFER_SIZE, (char*)cmd, args);
+	vsnprintf (cmdBuf, CMD_BUFFER_SIZE, (char*)cmd, args);
 	va_end (args);
 
 	espEmptyBuf();
