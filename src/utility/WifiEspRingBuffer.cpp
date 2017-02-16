@@ -92,7 +92,7 @@ void WifiEspRingBuffer::getStr(char * destination, unsigned int skipChars)
 	//destination[len]=0;
 }
 
-void RingBuffer::getStrN(char * destination, unsigned int skipChars, unsigned int num)
+void WifiEspRingBuffer::getStrN(char * destination, unsigned int skipChars, unsigned int num)
 {
 	int len = ringBufP-ringBuf-skipChars;
 
